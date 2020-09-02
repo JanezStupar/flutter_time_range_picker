@@ -164,6 +164,8 @@ showTimeRangePicker({
   );
 }
 
+typedef TimeRangeHeaderBuilder = Widget Function(BuildContext context);
+
 class TimeRangePicker extends StatefulWidget {
   final TimeOfDay start;
   final TimeOfDay end;
@@ -213,6 +215,8 @@ class TimeRangePicker extends StatefulWidget {
   final bool hideTimes;
   final bool hideButtons;
 
+  final TimeRangeHeaderBuilder headerBuilder;
+
   TimeRangePicker({
     Key key,
     this.start,
@@ -248,6 +252,7 @@ class TimeRangePicker extends StatefulWidget {
     this.activeTimeTextStyle,
     hideTimes,
     hideButtons,
+    this.headerBuilder,
   })  : hideTimes = hideTimes == null ? false : hideTimes,
         hideButtons = hideButtons == null ? false : hideButtons,
         super(key: key);
@@ -598,6 +603,8 @@ class _TimeRangePickerState extends State<TimeRangePicker>
       );
 
   Widget buildHeader(bool landscape) {
+    if (widget.headerBuilder != null) return widget.headerBuilder(context);
+
     final ThemeData themeData = Theme.of(context);
 
     Color backgroundColor;
